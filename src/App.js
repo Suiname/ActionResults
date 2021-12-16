@@ -73,6 +73,58 @@ const makeBadge = (result) => {
 	return badge
 }
 
+const mapPickType = (pick) => {
+	const picktype = pick.type
+	const customName = pick.custom_pick_name
+	let formattedPick;
+	switch (picktype.toLowerCase()) {
+		case 'spread_away':
+		case 'spread_home':
+			formattedPick = 'Spread'
+			break;
+		case 'custom':
+			formattedPick = !!customName ? customName : 'Custom';
+			break;
+		case 'over':
+			formattedPick = 'Over'
+			break;
+		case 'under':
+			formattedPick = 'Under'
+			break;
+		case 'ml_home':
+		case 'ml_away':
+			formattedPick = 'Money Line';
+			break;
+		default:
+			break;
+	}
+	return formattedPick;
+}
+
+const makeTags = (pick) => {
+	const pickType = mapPickType(pick);
+	return(
+		<Flex padding='2' borderWidth='1px' borderRadius='lg' display='flex' flexWrap='wrap' align="center" justify="left" marginTop={2}>
+			<Text fontSize='sm'>Tags:</Text>
+			<Badge marginLeft={2} variant='solid'>
+				{pick.league_name}
+			</Badge>
+			{
+				!!pickType &&
+				<Badge marginLeft={2} variant='solid'>
+					{pickType}
+				</Badge>
+			}
+			{
+				!!pick.tag &&
+				<Badge marginLeft={2} variant='solid'>
+					{pick.tag}
+				</Badge>
+			}
+		</Flex>
+	)
+}
+
 const makeCard = (pick) => {
 	const team1 = pick.game.teams[0]
 	const team2 = pick.game.teams[1]
@@ -87,6 +139,7 @@ const makeCard = (pick) => {
 			<Box padding='2' maxW='sm' overflow='hidden'>
 				{pickCard(pick)}
 			</Box>
+			{makeTags(pick)}
 		</Box>
 	)
 }
