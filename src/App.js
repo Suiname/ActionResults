@@ -11,6 +11,7 @@ import {
 	Badge,
 } from '@chakra-ui/react';
 import * as picks from './picks.json';
+import Menu from './Components/Menu'
 
 const teamCard = (team) => {
 	return (
@@ -147,6 +148,7 @@ const makeCard = (pick) => {
 function App() {
   return (
     <ChakraProvider theme={theme}>
+		<Menu/>
 		<SimpleGrid columns={4} spacing={4}>
 			{picks.picks.slice(0,100).map((pick) => makeCard(pick))}
 		</SimpleGrid>
